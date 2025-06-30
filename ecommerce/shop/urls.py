@@ -13,7 +13,6 @@ urlpatterns = [
     path('user/<int:pk>/', views.UserProfileView.as_view(), name='profile'),
     path('addcategory/', views.AddCategoryView.as_view(), name='add_category'),
     path('addproduct/', views.AddProductView.as_view(), name='add_product'),
-    path('hi', views.HelloView.as_view(), name='hello'),
 ]
 
 if settings.DEBUG:

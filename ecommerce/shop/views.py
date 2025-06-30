@@ -75,7 +75,3 @@ class AddProductView(View):
             messages.error(request, 'Error adding product. Please try again.')
             form = ProductForm()
             return render(request, 'add_product.html', {'form': form})
-
-class HelloView(View):
-    def get(self, request):
-        return render(request, 'hello.html', {'message': 'Hello, World!'})
