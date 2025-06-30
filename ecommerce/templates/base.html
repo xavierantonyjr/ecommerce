@@ -47,7 +47,11 @@
                     </div>
                     <div class="our-link">
                         <ul>
+                            {% if not user.is_authenticated %}
                             <li><a href="#"><i class="fa fa-user s_color"></i> My Account</a></li>
+                            {% else %}
+                            <li><a href="#"><i class="fa fa-user s_color"></i> {{ user.username }}</a></li>
+                            {% endif %}
                             <li><a href="#"><i class="fas fa-location-arrow"></i> Our location</a></li>
                             <li><a href="#"><i class="fas fa-headset"></i> Contact Us</a></li>
                         </ul>
@@ -64,28 +68,25 @@
                         <div id="offer-box" class="carouselTicker">
                             <ul class="offer-box">
                                 <li>
-                                    <i class="fab fa-opencart"></i> 20% off Entire Purchase Promo code: offT80
-                                </li>
-                                <li>
-                                    <i class="fab fa-opencart"></i> 50% - 80% off on Vegetables
-                                </li>
-                                <li>
-                                    <i class="fab fa-opencart"></i> Off 10%! Shop Vegetables
+                                    <i class="fab fa-opencart"></i> 20% off Entire Purchase Promo code: GREAT20
                                 </li>
                                 <li>
                                     <i class="fab fa-opencart"></i> Off 50%! Shop Now
                                 </li>
                                 <li>
-                                    <i class="fab fa-opencart"></i> Off 10%! Shop Vegetables
+                                    <i class="fab fa-opencart"></i> Off 10%! Shop Mobile
+                                </li>
+                                <li>
+                                    <i class="fab fa-opencart"></i> 50% - 80% off on FootWear
                                 </li>
                                 <li>
                                     <i class="fab fa-opencart"></i> 50% - 80% off on Vegetables
                                 </li>
                                 <li>
-                                    <i class="fab fa-opencart"></i> 20% off Entire Purchase Promo code: offT30
+                                    <i class="fab fa-opencart"></i> 40% off Entire Purchase Promo code: HAPPY40
                                 </li>
                                 <li>
-                                    <i class="fab fa-opencart"></i> Off 50%! Shop Now
+                                    <i class="fab fa-opencart"></i> Off 50% Shop Now
                                 </li>
                             </ul>
                         </div>
@@ -112,18 +113,27 @@
 
                 <!-- Collect the nav links, forms, and other content for toggling -->
                 <div class="collapse navbar-collapse" id="navbar-menu">
-                    <ul class="nav navbar-nav ml-auto" data-in="fadeInDown" data-out="fadeOutUp">
+                    <ul class="nav navbar-nav ms-auto mb-2 mb-1g-0" data-in="fadeInDown" data-out="fadeOutUp">
                         <li class="nav-item active"><a class="nav-link" href="{% url 'shop:categories' %}">Home</a></li>
                         <li class="dropdown">
-                            <a href="#" class="nav-link dropdown-toggle arrow" data-toggle="dropdown">SHOP</a>
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">SHOP</a>
                             <ul class="dropdown-menu">
                                 {% for i in cat %}
                                 <li><a href="{% url 'shop:products' i.id %}">{{ i.name }}</a></li>
                                 {% endfor %}
                             </ul>
                         </li>
-                        <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
-                        <li class="nav-item"><a class="nav-link" href="contact-us.html">Contact Us</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'shop:gallery' %}">Gallery</a></li>
+                        {% if user.is_authenticated %}
+                            {% if user.is_superuser %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'shop:add_category' %}">Add Category</a></li>
+                            <li class="nav-item"><a class="nav-link" href="{% url 'shop:add_product' %}">Add Products</a></li>
+                            {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'authentication:logout' %}">Logout</a></li>
+                        {% else %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'authentication:signup' %}">Register</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'authentication:signin' %}">Login</a></li>
+                        {% endif %}
                     </ul>
                 </div>
                 <!-- /.navbar-collapse -->
