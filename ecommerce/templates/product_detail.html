@@ -46,14 +46,30 @@
                     <div class="single-product-details">
                         <h2>{{ product.name }}</h2>
                         <h5>{{ product.price }}</h5>
-                        <p class="available-stock">{{ product.stock }} available <p>
+                        <p class="available-stock">
+                            {% if product.stock > 0 %}
+                                {{ product.stock }} available
+                                <span class="text-success">In Stock</span>
+                            {% else %}
+                                <span class="text-danger">Out of Stock</span>
+                            {% endif %}
+                        <p>
 						<h4>Short Description:</h4>
 						<p> {{ product.description }} </p>
 
 						<div class="price-box-bar">
 							<div class="cart-and-bay-btn">
-								<a class="btn hvr-hover" data-fancybox-close="" href="#">Buy New</a>
-								<a class="btn hvr-hover" data-fancybox-close="" href="{% url 'cart:add_to_cart' product.id %}">Add to cart</a>
+								{% if user.is_authenticated %}
+                                    {% if user.is_superuser %}
+                                        <a class="btn hvr-hover" href="#">Add Stock</a>
+                                    {% else %}
+                                        {% if product.stock > 0 %}
+                                            <a class="btn hvr-hover" href="{% url 'cart:addtocart' product.id %}">Add to cart</a>
+                                        {% else %}
+                                            <a class="btn hvr-hover disabled" href="#">Out of Stock</a>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endif %}
 							</div>
 						</div>
                     </div>

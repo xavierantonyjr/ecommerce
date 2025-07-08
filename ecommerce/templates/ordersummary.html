@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}Order Summary{% endblock %}
+
+{% block content %}
+<!-- Title Box -->
+<div class="all-title-box">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h2>Order Summary</h2>
+                <ul class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Shop</a></li>
+                    <li class="breadcrumb-item active">Order Summary</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Order Summary -->
+    <div class="container w-50 mt-5">
+        {% for i in orders %}
+            {% for j in i.items.all %}
+                <div class="card mb-3" style="width: 540px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{ j.product.image.url }}" class="card-img-top" alt="{{ j.product.name }}">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title"><strong>Product Name</strong>{{ j.product.name }}</h5>
+                                <p class="card-text"><strong>Price</strong> {{ j.product.price }}</p>
+                                <p class="card-text"><strong>Quantity</strong> {{ j.quantity }}</p>
+                                <p class="card-text"><strong>Order Date</strong> {{ i.created_at }}</p>
+                                <p class="card-text"><strong>Shipping Address</strong> {{ i.shipping_address }}</p>
+                                <p class="card-text"><strong>Order ID</strong> {{ i.order_id }}</p>
+                                <p class="card-text"><strong>Delivery Status</strong>
+                                    {% if i.is_delivered %}
+                                        <span class="text-success">Delivered</span>
+                                    {% else %}
+                                        <span class="text-warning">Pending</span>
+                                    {% endif %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% empty %}
+            <div class="alert alert-info text-center">
+                You have no past orders.
+            </div>
+        {% endfor %}
+
+        <div class="text-center mt-4">
+            <a href="{% url 'shop:categories' %}" class="btn hvr-hover" style="color:white;">Continue Shopping</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
